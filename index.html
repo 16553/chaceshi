@@ -1,82 +1,41 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>q绑查询</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 50px;
-        }
-        #input-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        #query-input {
-            padding: 8px;
-            width: 250px;
-            font-size: 16px;
-        }
-        #submit-btn {
-            padding: 8px 16px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        #result-container {
-            margin-top: 90px;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Q绑查询</title>
 </head>
 <body>
-    <h1>q绑查询</h1>
+  <h1>Q绑查询</h1>
 
-    <div id="input-container">
-        <input type="text" id="query-input" placeholder="请输入查询qq">
-        <button id="submit-btn">查询</button>
-    </div>
+  <form onsubmit="handleQuery(event)">
+    <label for="inputQuery">请输入查询内容：</label>
+    <input type="text" id="inputQuery" required>
+    <button type="submit">查询</button>
+  </form>
 
-    <div id="result-container"></div>
+  <pre id="result"></pre>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const submitBtn = document.getElementById("submit-btn");
-            const queryInput = document.getElementById("query-input");
-            const resultContainer = document.getElementById("result-container");
+  <script>
+    function handleQuery(event) {
+      event.preventDefault();
 
-            submitBtn.addEventListener("click", function () {
-                const query = queryInput.value.trim();
-                if (!query) {
-                    alert("请输入查询内容");
-                    return;
-                }
+      const query = document.getElementById("inputQuery").value.trim();
+      if (!query) return;
 
-                resultContainer.textContent = "正在查询，请稍候...";
-                
-                fetch(`https://cqapi.site/API/qb.php?msg=${encodeURIComponent(query)}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("请求失败");
-                        }
-                        return response.text();
-                    })
-                    .then(text => {
-                        resultContainer.textContent = text;
-                    })
-                    .catch(error => {
-                        resultContainer.textContent = "查询失败，请稍后重试或检查网络连接";
-                        console.error("Error fetching data:", error);
-                    });
-            });
+      const apiUrl = "https://cqapi.site/API/qb.php?msg=" + encodeURIComponent(query);
+
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) throw new Error(`查询失败，HTTP状态码: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          document.getElementById("result").textContent = `查询失败：${error.message}`;
         });
-    </script>
+    }
+  </script>
 </body>
 </html>
