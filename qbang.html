@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Q绑查询</title>
+</head>
+<body>
+  <h1>Q绑查询</h1>
+
+  <form onsubmit="handleQuery(event)">
+    <label for="inputQuery">请输入查询内容：</label>
+    <input type="text" id="inputQuery" required>
+    <button type="submit">查询</button>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    function handleQuery(event) {
+      event.preventDefault();
+
+      const query = document.getElementById("inputQuery").value.trim();
+      if (!query) return;
+
+      const apiUrl = "https://cqapi.site/API/qb.php?msg=" + encodeURIComponent(query);
+
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) throw new Error(`查询失败，HTTP状态码: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          document.getElementById("result").textContent = `查询失败：${error.message}`;
+        });
+    }
+  </script>
+</body>
+</html>
