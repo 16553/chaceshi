@@ -1,41 +1,67 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>Q绑查询</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能导航页</title>
+    <style>
+        /* 基本样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        /* 圆角图片样式 */
+        .hero-image {
+            width: 70%;
+            max-width: .png;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        /* 按钮样式 */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <h1>Q绑查询</h1>
+    <!-- 圆角图片 -->
+    <img src="https://img2.imgtp.com/2024/04/21/AY2QMg4v.jpg" alt="Feature Image" class="hero-image">
 
-  <form onsubmit="handleQuery(event)">
-    <label for="inputQuery">请输入查询内容：</label>
-    <input type="text" id="inputQuery" required>
-    <button type="submit">查询</button>
-  </form>
-
-  <pre id="result"></pre>
-
-  <script>
-    function handleQuery(event) {
-      event.preventDefault();
-
-      const query = document.getElementById("inputQuery").value.trim();
-      if (!query) return;
-
-      const apiUrl = "https://api.xywlapi.cc/qqcx2023?qq=" + encodeURIComponent(query);
-
-      fetch(apiUrl)
-        .then(response => {
-          if (!response.ok) throw new Error(`查询失败，HTTP状态码: ${response.status}`);
-          return response.json();
-        })
-        .then(data => {
-          document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-          document.getElementById("result").textContent = `查询失败：${error.message}`;
-        });
-    }
-  </script>
+    <!-- 按钮组 -->
+    <div class="button-container">
+        <a href="/qbang" class="btn">① q绑查询</a>
+        <a href="/fancha" class="btn">② q手机号反查</a>
+        <a href="/datou" class="btn">③ 大头照思路</a>
+        <a href="https://ip.98cat.cn/" target="_blank" class="btn">④ ip探针</a>
+        <a href="/eryao" class="btn">⑤ 二要素</a>
+    </div>
 </body>
 </html>
