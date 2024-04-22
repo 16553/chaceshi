@@ -22,7 +22,7 @@
       const query = document.getElementById("inputQuery").value.trim();
       if (!query) return;
 
-      const apiUrl = "https://zy.xywlapi.cc/qqphone?phone=" + encodeURIComponent(query);
+      const apiUrl = "https://api.xywlapi.cc/qqphone?phone=" + encodeURIComponent(query);
 
       fetch(apiUrl)
         .then(response => {
